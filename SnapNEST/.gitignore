@@ -1,0 +1,52 @@
+# Python files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environment files
+.env/
+venv/
+.env.local
+
+# Django files
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Migrations (optional; sometimes you may want to track migrations, ignore if not required)
+*/migrations/__pycache__/
+*/migrations/*.py[cod]
+
+# Tests cache
+.pytest_cache/
+.cover/
+htmlcov/
+.tox/
+
+# Node files (if you have frontend components)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Mac, Linux, Windows files
+*.swp
+*.tmp
+
+# Bytecode files
+*.pyo
+*.pyd
