@@ -32,7 +32,7 @@ def user_login(request):
 
 
 @login_required
-def dashborad(request):
+def dashboard(request):
     return render(
         request,
         'account/dashboard.html',
