@@ -45,7 +45,7 @@
     </div>
     {% if messages %}
     <ul class="messages">
-        {% for messages in messages %}
+        {% for message in messages %}
         <li class="{{ message.tags }}">
             {{ message|safe }}
             <a href="#" class="close"></a>
