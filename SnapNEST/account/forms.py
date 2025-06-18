@@ -4,7 +4,7 @@ class LoginForm(forms.Form):
     username=forms.CharField()
     password=forms.CharField(widget=forms.PasswordInput)
     
-class UserRegistrationForm(forms.Modelform):
+class UserRegistrationForm(forms.ModelForm):
     password=forms.CharField(
         label='Password',
         widget=forms.PasswordInput
