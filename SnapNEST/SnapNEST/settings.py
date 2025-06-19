@@ -99,6 +99,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS=[
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend'
+]
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -133,7 +139,3 @@ MEDIA_URL='media/'
 MEDIA_ROOT=BASE_DIR / 'media'
 
 
-AUTHENTICATION_BACKENDS=[
-    'django.contrib.auth.backends.ModelBackend',
-    'account.authentication.EmailAuthBackend',
-]
