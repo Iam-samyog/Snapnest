@@ -5,7 +5,6 @@ __pycache__/
 *.pyd
 
 # Environment files
-.env/
 venv/
 .env.local
 
@@ -50,3 +49,9 @@ yarn.lock
 # Bytecode files
 *.pyo
 *.pyd
+
+
+.env
+venv
+.crt
+.key
