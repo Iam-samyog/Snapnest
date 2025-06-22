@@ -8,7 +8,7 @@
   <a href="{{ image.image.url }}">
     <img src="{% thumbnail image.image 300x0 %}" class="image-detail">
   </a>
-  {% with total_likes=image.users_like.count users_like=image.users_like.all %}
+  {% with total_likes=image.user_like.count users_like=image.user_like.all %}
     <div class="image-info">
       <div>
         <span class="count">
@@ -42,7 +42,10 @@
 {% endblock %}
 
 {% block domready %}
+  // Get CSRF token properly
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   const url = '{% url "images:like" %}';
+  
   var options = {
     method: 'POST',
     headers: {'X-CSRFToken': csrftoken},
@@ -71,13 +74,18 @@
         // toggle button text and data-action
         var action = previousAction === 'like' ? 'unlike' : 'like';
         likeButton.dataset.action = action;
-        likeButton.innerHTML = action;
+        
+        // Fix: Properly capitalize the button text
+        likeButton.innerHTML = action === 'like' ? 'Like' : 'Unlike';
 
         // update like count
         var likeCount = document.querySelector('span.count .total');
-var totalLikes = parseInt(likeCount.textContent.trim()) || 0;
-likeCount.innerHTML = previousAction === 'like' ? totalLikes + 1 : totalLikes - 1;
+        var totalLikes = parseInt(likeCount.innerHTML);
+        likeCount.innerHTML = previousAction === 'like' ? totalLikes + 1 : totalLikes - 1;
       }
     })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   });
 {% endblock %}
