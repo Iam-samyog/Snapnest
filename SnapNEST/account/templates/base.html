@@ -57,6 +57,18 @@
         {% block content %}
         {% endblock %}
     </div>
-    
+    <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js">
+    </script>
+    <script>
+        const csrf_token=Cookies.get('csrftoken');
+        
+         document.addEventListener('DOMContentLoaded', (event) => {
+        // DOM fully loaded and parsed
+        {% block domready %}
+        // Custom inline JS can go here
+        {% endblock %}
+    });
+    </script>
+
 </body>
 </html>
