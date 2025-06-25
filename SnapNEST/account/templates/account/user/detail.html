@@ -25,3 +25,51 @@
     </div>
   {% endwith %}
 {% endblock %}
+
+{% block domready %}
+  const url = '{% url "user_follow" %}';
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  
+  var options = {
+    method: 'POST',
+    headers: {'X-CSRFToken': csrftoken},
+    mode: 'same-origin'
+  }
+
+  document.querySelector('a.follow')
+          .addEventListener('click', function(e){
+    e.preventDefault();
+    var followButton = this;
+
+    var formData = new FormData();
+    formData.append('id', followButton.dataset.id);
+    formData.append('action', followButton.dataset.action);
+    options['body'] = formData;
+
+    fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+      if (data['status'] === 'ok') {
+        var previousAction = followButton.dataset.action;
+        var action = previousAction === 'follow' ? 'unfollow' : 'follow';
+        
+        followButton.dataset.action = action;
+        followButton.innerHTML = action === 'follow' ? 'Follow' : 'Unfollow';
+
+        var followerCount = document.querySelector('span.count .total');
+        var totalFollowers = parseInt(followerCount.innerHTML);
+        followerCount.innerHTML = previousAction === 'follow' ? totalFollowers + 1 : totalFollowers - 1;
+      } else {
+        console.error('Server error:', data);
+      }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+  });
+{% endblock %}
