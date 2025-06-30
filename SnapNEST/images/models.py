@@ -9,7 +9,7 @@ class Image(models.Model):
         related_name='images_created',
         on_delete=models.CASCADE
     )
-    total_likes=models.PositiveIntegerField(default=0)
+    
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, blank=True)
     url = models.URLField(max_length=2000)
@@ -22,6 +22,7 @@ class Image(models.Model):
         related_name='images_liked',
         blank=True
     )
+    total_likes=models.PositiveIntegerField(default=0)
     
     def get_absolute_url(self):
         return reverse('images:detail',args=[self.id,self.slug])
