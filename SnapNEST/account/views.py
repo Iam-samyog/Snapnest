@@ -7,6 +7,7 @@ from .models import Profile,Contact
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from actions.utils import create_action
+from actions.models import Action
 # Create your views here.
 
 User=get_user_model()
@@ -39,10 +40,22 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
+    #display actions
+    actions=Action.objects.exclude(user=request.user)
+    following_ids=request.user.following.values_list(
+        'id',flat=True
+    )
+    if following_ids:
+        #if user is following others, retrive only their actions
+        actions=actions.filter(user_id__in=following_ids)
+    actions=actions[:10]
     return render(
         request,
         'account/dashboard.html',
-        {'section':'dashboard'}
+        {
+            'section':'dashboard',
+            'actions':actions
+        }
     )
 
 def register(request):
