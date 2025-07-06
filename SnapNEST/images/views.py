@@ -9,7 +9,15 @@ from django.views.decorators.http import require_POST
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from django.http import HttpResponse
 from actions.utils import create_action
+import redis
+from django.conf import settings
 
+#connect to redis
+r=redis.Redis(
+    host=settings.REDIS_HOST,
+    port=settings.REDIS_PORT,
+    db=settings.REDIS_DB
+)
 
 @login_required
 def image_create(request):
@@ -39,10 +47,17 @@ def image_create(request):
 
 def image_detail(request,id,slug):
     image=get_object_or_404(Image,id=id,slug=slug)
+    #increment total image views by 1
+    total_views=r.incr(f'image:{image.id}:views')
     return render(
         request,
         'images/image/detail.html',
-        {'section':'images','image':image} 
+        {
+            'section':'images',
+            'image':image,
+            'total_views':total_views
+         
+         } 
     )
  
 
@@ -92,3 +107,4 @@ def image_list(request):
         'images/image/list.html',
         {'section':'images','images':images}
     )
+    
